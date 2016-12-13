@@ -60,6 +60,7 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
   size_t shared_indexes[2] = {0, kDistInf};
   size_t frontier_tails[2] = {1, 0};
   frontier[0] = source;
+  PrintStep("Source", static_cast<int64_t>(source));
   t.Start();
   #pragma omp parallel
   {
