@@ -14,6 +14,9 @@
 #include "sliding_queue.h"
 #include "timer.h"
 
+#ifdef POWER_PROFILING
+#include "../power_rapl.h"
+#endif
 
 /*
 GAP Benchmark Suite
@@ -242,9 +245,19 @@ int main(int argc, char* argv[]) {
   if (!cli.ParseArgs())
     return -1;
   Builder b(cli);
+#ifdef POWER_PROFILING
+  power_rapl_t ps;
+  power_rapl_init(&ps);
+  printf("Monitoring power with RAPL on GAP BFS\n");
+  power_rapl_start(&ps);
+#endif
   Graph g = b.MakeGraph();
   SourcePicker<Graph> sp(g, cli.start_vertex());
   auto BFSBound = [&sp] (const Graph &g) { return DOBFS(g, sp.PickNext()); };
+#ifdef POWER_PROFILING
+    power_rapl_end(&ps);
+    power_rapl_print(&ps);
+#endif
   SourcePicker<Graph> vsp(g, cli.start_vertex());
   auto VerifierBound = [&vsp] (const Graph &g, const pvector<NodeID> &parent) {
     return BFSVerifier(g, vsp.PickNext(), parent);
