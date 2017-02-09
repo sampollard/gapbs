@@ -36,7 +36,7 @@ all: $(SUITE) sleep_baseline
 	$(CXX) $(CXX_FLAGS) -c $< -o $@
 
 sleep_baseline: power_rapl.o sleep_baseline.o
-	$(CC) $(CFLAGS) -o baseline sleep_baseline.o power_rapl.o $(LDLIBS)
+	$(CC) $(CFLAGS) -o sleep_baseline sleep_baseline.o power_rapl.o $(LDLIBS)
 power_rapl.o : power_rapl.c power_rapl.h
 	$(CC) $(CFLAGS) -c -o power_rapl.o power_rapl.c $(LDLIBS) 
 sleep_baseline.o: sleep_baseline.c
