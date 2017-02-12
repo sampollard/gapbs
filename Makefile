@@ -2,7 +2,7 @@
 
 CXX_FLAGS += -std=c++11 -O3 -Wall
 PAR_FLAG = -fopenmp
-BUILD_RAPL = Yes
+BUILD_RAPL = No
 
 ifneq (,$(findstring icpc,$(CXX)))
 	PAR_FLAG = -openmp
@@ -24,13 +24,15 @@ ifeq ($(BUILD_RAPL), Yes)
 	CFLAGS += -I$(PAPI_HOME)/include -DPOWER_PROFILING=1 -g -Wall
 	CXX_FLAGS += -DPOWER_PROFILING=1
 	LDLIBS += -L$(PAPI_HOME)/lib -Wl,-rpath,$(PAPI_HOME)/lib -lpapi -lm
+	POWER_OBJS = power_rapl.o
+	SUITE += sleep_baseline
 endif
 
 .PHONY: all
-all: $(SUITE) sleep_baseline
+all: $(SUITE)
 
-% : %.o power_rapl.o
-	$(CXX) $(CXX_FLAGS) -o $@ power_rapl.o $< $(LDLIBS)
+% : %.o $(POWER_OBJS)
+	$(CXX) $(CXX_FLAGS) -o $@ $(POWER_OBJS) $< $(LDLIBS)
 
 %.o : src/%.cc src/*.h power_rapl.h
 	$(CXX) $(CXX_FLAGS) -c $< -o $@
