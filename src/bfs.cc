@@ -249,10 +249,12 @@ int main(int argc, char* argv[]) {
   power_rapl_t ps;
   power_rapl_init(&ps);
   printf("Monitoring power with RAPL on GAP BFS\n");
-  power_rapl_start(&ps);
 #endif
   Graph g = b.MakeGraph();
   SourcePicker<Graph> sp(g, cli.start_vertex());
+#ifdef POWER_PROFILING
+  power_rapl_start(&ps);
+#endif
   auto BFSBound = [&sp] (const Graph &g) { return DOBFS(g, sp.PickNext()); };
 #ifdef POWER_PROFILING
     power_rapl_end(&ps);
