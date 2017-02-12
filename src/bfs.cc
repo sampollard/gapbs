@@ -258,11 +258,11 @@ int main(int argc, char* argv[]) {
   };
 #ifdef POWER_PROFILING
   power_rapl_start(&ps);
-  printf("Monitoring power with RAPL on GAP BFS\n");
 #endif
   BenchmarkKernel(cli, g, BFSBound, PrintBFSStats, VerifierBound);
 #ifdef POWER_PROFILING
     power_rapl_end(&ps);
+    printf("Monitoring power with RAPL on GAP BFS\n");
     power_rapl_print(&ps);
 #endif
   return 0;
