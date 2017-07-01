@@ -20,7 +20,7 @@ endif
 KERNELS = bc bfs cc pr sssp tc
 SUITE = $(KERNELS) converter
 ifeq ($(BUILD_RAPL), Yes)
-	PAPI_HOME=/usr/local/packages/papi/git
+	PAPI_HOME = $(PAPI)
 	CFLAGS += -I$(PAPI_HOME)/include -DPOWER_PROFILING=1 -g -Wall
 	CXX_FLAGS += -DPOWER_PROFILING=1
 	LDLIBS += -L$(PAPI_HOME)/lib -Wl,-rpath,$(PAPI_HOME)/lib -lpapi -lm

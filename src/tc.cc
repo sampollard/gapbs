@@ -88,10 +88,13 @@ bool WorthRelabelling(const Graph &g) {
 
 // uses heuristic to see if worth relabeling
 size_t Hybrid(const Graph &g) {
+  size_t rv;
   if (WorthRelabelling(g))
-    return OrderedCount(Builder::RelabelByDegree(g));
+    rv = OrderedCount(Builder::RelabelByDegree(g));
   else
-    return OrderedCount(g);
+    rv = OrderedCount(g);
+  std::cout << "GAP Number of Triangles: " << rv << std::endl;
+  return rv;
 }
 
 
