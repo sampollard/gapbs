@@ -18,7 +18,7 @@ ifneq ($(SERIAL), 1)
 endif
 
 KERNELS = bc bfs cc pr sssp tc
-SUITE = $(KERNELS) converter
+SUITE = $(KERNELS) converter roots
 ifeq ($(BUILD_RAPL), Yes)
 	PAPI_HOME = $(PAPI)
 	CFLAGS += -I$(PAPI_HOME)/include -DPOWER_PROFILING=1 -g -Wall
